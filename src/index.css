@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.modal {
+    transition: opacity 0.25s ease;
+}

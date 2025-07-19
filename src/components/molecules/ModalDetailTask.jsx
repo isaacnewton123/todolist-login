@@ -1,7 +1,7 @@
 import { IoClose } from "react-icons/io5";
 import HeaderText from "../atoms/HeaderText";
 import ChildrenText from "../atoms/ChildrenText";
-import Button from "../atoms/button";
+import Button from "../atoms/Button";
 
 const ModalDetailTaskMolecules = ({
   Title = "qwerty",

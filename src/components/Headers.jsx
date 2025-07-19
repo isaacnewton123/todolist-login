@@ -1,4 +1,4 @@
-import Button from "./atoms/button";
+import Button from "./atoms/Button";
 import HeaderText from "./atoms/HeaderText";
 
 const Header = ({openModal, onLogout, children = "Semua Tugas" }) => {

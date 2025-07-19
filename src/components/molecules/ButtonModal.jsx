@@ -1,5 +1,5 @@
 // @ts-ignore
-import Button from "../atoms/button";
+import Button from "../atoms/Button";
 
 const ButtonModal = ({ onClick }) => {
   return (

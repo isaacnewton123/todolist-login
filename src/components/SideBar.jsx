@@ -1,4 +1,4 @@
-import Button from "./atoms/button";
+import Button from "./atoms/Button";
 import ChildrenText from "./atoms/ChildrenText";
 import HeaderText from "./atoms/HeaderText";
 import { FaRegFolderOpen } from "react-icons/fa";

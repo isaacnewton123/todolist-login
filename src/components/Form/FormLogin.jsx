@@ -1,7 +1,7 @@
 import { useState } from "react";
 import InputField from "../molecules/InputField";
 // @ts-ignore
-import Button from "../atoms/button";
+import Button from "../atoms/Button";
 import { useAuth } from "../hooks/useAuth";
 
 const FormLogin = () => {

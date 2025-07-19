@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Button from "./atoms/button";
 import ChildrenText from "./atoms/ChildrenText";
 import HeaderText from "./atoms/HeaderText";

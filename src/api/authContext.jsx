@@ -1,12 +1,9 @@
-import { createContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import * as authService from "./authService";
-import { ToastContainer, toast } from "react-toastify";
 import Loading from "../components/loading";
 import { jwtDecode } from "jwt-decode";
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext(null);
+import { AuthContext } from "./context";
+import * as authService from "./authService";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -21,12 +18,14 @@ export const AuthProvider = ({ children }) => {
         const decodedUser = jwtDecode(token);
         const isExpired = decodedUser.exp * 1000 < Date.now();
         if (isExpired) {
+          setUser(null);
           authService.logout();
         } else {
           setUser(decodedUser);
         }
-        // eslint-disable-next-line no-unused-vars
       } catch (error) {
+        console.error(error);
+        setUser(null);
         authService.logout();
       }
     }
@@ -34,61 +33,21 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (user) {
+    if (!loading && user) {
       navigate("/dashboard");
     }
-  }, [navigate, user]);
-
-  const handleLogin = async (credentials) => {
-    try {
-      const data = await authService.login(credentials);
-
-      if (data && data.token) {
-        const decodedUser = jwtDecode(data.token);
-        setUser(decodedUser);
-        toast.success("Berhasil Login!");
-      } else {
-        toast.error("Login gagal, tidak ada token diterima.");
-      }
-    } catch (error) {
-      console.error(error)
-      toast.error('Login Gagal , username atau password salah');
-    }
-  };
-
-  const handleRegister = async (userData) => {
-    try {
-      await authService.register(userData);
-      navigate("/login", { state: { registeredSuccess: true } });
-    } catch (error) {
-      console.error(error)
-      toast.error('register gagal , username sudah ada');
-    }
-  };
-
-  const handleLogout = () => {
-    authService.logout();
-    setUser(null);
-    toast.info("Anda telah logout.");
-    navigate("/login");
-  };
+  }, [navigate, loading, user]);
 
   const value = {
     user,
+    setUser,
     loading,
-    login: handleLogin,
-    register: handleRegister,
-    logout: handleLogout,
+    setLoading,
   };
 
   if (loading) {
     return <Loading />;
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      <ToastContainer />
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

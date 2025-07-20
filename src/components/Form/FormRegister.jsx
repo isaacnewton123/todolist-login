@@ -2,13 +2,13 @@ import { useState } from "react";
 import InputField from "../molecules/InputField";
 // @ts-ignore
 import Button from "../atoms/Button";
-import { useAuth } from "../hooks/useAuth";
+import { useAuthAction } from "../../api/authAction";
 
 const FormRegister = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [resubmitPassword, setResubmitPassword] = useState("");
-  const { register } = useAuth();
+  const { register } = useAuthAction();
 
 
   async function handleSubmit(e) {

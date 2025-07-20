@@ -2,12 +2,13 @@ import { useState } from "react";
 import InputField from "../molecules/InputField";
 // @ts-ignore
 import Button from "../atoms/Button";
-import { useAuth } from "../hooks/useAuth";
+import { useAuthAction } from "../../api/authAction";
 
 const FormLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+
+  const {login} = useAuthAction()
 
   async function handleSubmit(e) {
     e.preventDefault();

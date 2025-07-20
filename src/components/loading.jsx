@@ -1,6 +1,7 @@
 import "./style/loading.css";
 
-const Loading = () => {
+const Loading = () => { 
+
   return (
     <div className="body">
       <div className="loader">

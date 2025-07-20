@@ -4,13 +4,14 @@ import Loading from "../components/loading";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "./context";
 import * as authService from "./authService";
+import { toast } from "react-toastify";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -29,7 +30,6 @@ export const AuthProvider = ({ children }) => {
         authService.logout();
       }
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -38,11 +38,33 @@ export const AuthProvider = ({ children }) => {
     }
   }, [navigate, loading, user]);
 
+  useEffect(() => {
+    if (!user) {
+      setTodos([]);
+      return;
+    }
+    const fetchData = async () => {
+      try {
+        const task = await authService.getTask();
+        setTodos(task.data);
+        toast.info("berhasil mengambil data");
+      } catch (error) {
+        toast.error("tidak datap mengambil tugas");
+        console.error(error);
+      } finally {
+        setLoading(false)
+      }
+    };
+    fetchData();
+  }, [user]);
+
   const value = {
     user,
     setUser,
     loading,
     setLoading,
+    todos,
+    setTodos,
   };
 
   if (loading) {

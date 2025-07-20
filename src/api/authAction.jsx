@@ -23,8 +23,7 @@ export const useAuthAction = () => {
     } catch (error) {
       console.error(error);
       toast.error("Login Gagal , username atau password salah");
-    } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 
@@ -32,7 +31,7 @@ export const useAuthAction = () => {
     setLoading(true);
     try {
       await authService.register(userData);
-      toast.success("Berhasil Register, silahkan login");
+      
       navigate("/login");
       
     } catch (error) {

@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [filteredTodos, setFilteredTodos] = useState([]);
 
@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    setLoading(true);
     const token = localStorage.getItem("token");
     if (token) {
       try {
@@ -42,10 +41,9 @@ export const AuthProvider = ({ children }) => {
         console.error(error);
         setUser(null);
         authService.logout();
-      } finally {
-        setLoading(false);
       }
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -68,8 +66,6 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         toast.error("tidak datap mengambil tugas");
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
@@ -88,6 +84,8 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         toast.error("tidak dapat mengambil kategori");
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCategories();
@@ -104,7 +102,7 @@ export const AuthProvider = ({ children }) => {
     setCategories,
     setFilteredTodos,
     filteredTodos,
-    filterTodos
+    filterTodos,
   };
 
   if (loading) {

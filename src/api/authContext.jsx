@@ -42,6 +42,8 @@ export const AuthProvider = ({ children }) => {
         console.error(error);
         setUser(null);
         authService.logout();
+      } finally {
+        setLoading(false);
       }
     }
   }, []);

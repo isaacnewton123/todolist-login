@@ -12,7 +12,7 @@ const FormLogin = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!username.trim()) return;
+    if (!username.trim() && !password.trim()) return;
 
     await login({ username, password });
     setUsername("");

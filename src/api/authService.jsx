@@ -37,10 +37,10 @@ export const getTask = () => {
 };
 
 export const addTask = (item) => {
-  return apiClient.post("/api/tasks", { item });
+  return apiClient.post("/api/tasks", item);
 };
 
-export const editTask = (id, item) => {
+export const editComplete = (id, item) => {
   return apiClient.put(`/api/tasks/${id}`, item);
 };
 
@@ -52,8 +52,8 @@ export const getCategory = () => {
   return apiClient.get("/api/categories");
 };
 
-export const postCategory = (item) => {
-  return apiClient.post("/api/categories", item);
+export const postCategory = (category) => {
+  return apiClient.post("/api/categories", category);
 };
 
 export const logout = () => {

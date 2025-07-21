@@ -1,8 +1,8 @@
 import { useState } from "react";
 import InputField from "../molecules/InputField";
-// @ts-ignore
 import Button from "../atoms/Button";
 import { useAuthAction } from "../../api/authAction";
+import { toast } from "react-toastify";
 
 const FormRegister = () => {
   const [username, setUsername] = useState("");
@@ -13,9 +13,13 @@ const FormRegister = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!username.trim() && !password.trim()) return;
-    if (username === resubmitPassword) {
-      alert("password harus sama");
+    if (!username.trim() || !password.trim()) {
+      toast.error('masukan yang credesial yang benar')
+      return
+    } 
+    if (password !== resubmitPassword) {
+      toast.error("password harus sama");
+      return
     }
 
     await register({ username, password });

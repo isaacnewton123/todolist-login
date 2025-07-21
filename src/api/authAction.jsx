@@ -31,7 +31,7 @@ export const useAuthAction = () => {
     setLoading(true);
     try {
       await authService.register(userData);
-      
+      toast.success("register berhasil");
       navigate("/login");
       
     } catch (error) {

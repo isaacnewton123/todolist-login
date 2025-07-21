@@ -1,20 +1,32 @@
-import { FaRegCheckCircle } from "react-icons/fa";
-import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import TaskValue from "./molecules/TaskValue";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { useAuth } from "./hooks/useAuth";
+import { useAuthTask } from "../api/authTask";
 
-const TodoList = ({ onClick, value = "dihasdh" }) => {
+const TodoList = ({ detailTask }) => {
+  const { todos } = useAuth();
+  const { completed, deleteTask } = useAuthTask();
+
+  const handleTaskDetail = (task) => {
+    const taskDetail = {
+      ...task,
+      category: task.category ? task.category.name : "Tidak ada kategori",
+    };
+    detailTask(taskDetail);
+  };
+
   return (
-    <div className="flex items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-      <FaRegCheckCircle className="cursor-pointer h-5 w-5  text-white  hover:text-indigo-600" />
-      <TaskValue
-        variantTile={"task"}
-        variantNotes={"task"}
-        title={value}
-        notes={value}
-        onClick={onClick}
-      />
-      <RiDeleteBin6Line className="cursor-pointer h-5 w-5  text-white  hover:text-red-600" />
+    <div className="space-y-4">
+      {todos.map((a) => (
+        <TaskValue
+          key={a._id}
+          title={a.title}
+          category={a.category?.name || "Tidak ada kategori"}
+          completed={a.completed}
+          onClick={() => handleTaskDetail(a)}
+          onDelete={() => deleteTask(a._id)}
+          onChange={() => completed(a._id, a)}
+        />
+      ))}
     </div>
   );
 };

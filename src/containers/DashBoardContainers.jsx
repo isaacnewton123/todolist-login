@@ -5,11 +5,18 @@ import TodoList from "../components/TodoList";
 import ModalAddTask from "../components/modal/AddTask";
 import ModalAddCategory from "../components/modal/AddCategory";
 import DetailTaskModal from "../components/modal/DetailTask";
+import { useEffect } from "react";
 
-const DashboardContainers = ({ onAddCategory, onAddTask, onLogout }) => {
+const DashboardContainers = ({ onLogout }) => {
   const [addTaskModal, setAddTaskModal] = useState(false);
   const [addCategoryModal, setAddCategoryModal] = useState(false);
   const [detailTaskModal, setDetailTaskModal] = useState(false);
+  const [detailTask, setDetailTask] = useState(null);
+
+
+  useEffect(() => {
+    console.log("Detail Task:", detailTask);
+  }, [detailTask]);
 
   const openAddTaskModal = () => {
     setAddTaskModal(true);
@@ -27,38 +34,34 @@ const DashboardContainers = ({ onAddCategory, onAddTask, onLogout }) => {
     setAddCategoryModal(false);
   };
 
-  const openDetailTaskModal = () => {
+  const openDetailTaskModal = (task) => {
     setDetailTaskModal(true);
+    setDetailTask(task);
   };
 
   const closeDetailTaskModal = () => {
     setDetailTaskModal(false);
+    setDetailTask(null);
   };
 
   return (
     <div className="flex h-screen">
       {detailTaskModal ? (
-        <DetailTaskModal onClick={closeDetailTaskModal} />
+        <DetailTaskModal onClick={closeDetailTaskModal} todos={detailTask} />
       ) : (
         <></>
       )}
       {addCategoryModal ? (
-        <ModalAddCategory onAdd={onAddCategory} onClick={closeAddCategoryModal} />
+        <ModalAddCategory onClick={closeAddCategoryModal} />
       ) : (
         <></>
       )}
-      {addTaskModal ? (
-        <ModalAddTask onAdd={onAddTask} onClick={closeAddTaskModal} />
-      ) : (
-        <></>
-      )}
+      {addTaskModal ? <ModalAddTask onClick={closeAddTaskModal} /> : <></>}
 
       <SideBar onClick={openAddCategoryModal} />
       <div className="flex-1 p-8 overflow-y-auto">
         <Header openModal={openAddTaskModal} onLogout={onLogout} />
-        <div className="space-y-4">
-          <TodoList onClick={openDetailTaskModal} />
-        </div>
+        <TodoList detailTask={openDetailTaskModal} />
       </div>
     </div>
   );

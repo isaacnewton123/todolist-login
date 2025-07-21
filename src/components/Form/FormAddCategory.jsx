@@ -1,15 +1,18 @@
 import { useState } from "react";
 import InputField from "../molecules/InputField";
 import ButtonModal from "../molecules/ButtonModal";
+import { useAuthTask } from "../../api/authTask";
 
-const FormAddCategory = ({ onAdd, onClick }) => {
+const FormAddCategory = ({ onClick }) => {
   const [category, setCategory] = useState("");
+  const { addCategory } = useAuthTask();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!category.trim()) return;
 
-    onAdd({ category });
+
+    addCategory(category)
     setCategory("");
   }
   return (

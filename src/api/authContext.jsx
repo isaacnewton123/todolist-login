@@ -10,6 +10,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    console.log(todos);
+  }, [todos]);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -52,10 +57,28 @@ export const AuthProvider = ({ children }) => {
         toast.error("tidak datap mengambil tugas");
         console.error(error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
     fetchData();
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      setCategories([]);
+      return;
+    }
+    const fetchCategories = async () => {
+      try {
+        const response = await authService.getCategory();
+        setCategories(response.data);
+        toast.info("berhasil mengambil kategori");
+      } catch (error) {
+        toast.error("tidak dapat mengambil kategori");
+        console.error(error);
+      }
+    };
+    fetchCategories();
   }, [user]);
 
   const value = {
@@ -65,6 +88,8 @@ export const AuthProvider = ({ children }) => {
     setLoading,
     todos,
     setTodos,
+    categories,
+    setCategories,
   };
 
   if (loading) {

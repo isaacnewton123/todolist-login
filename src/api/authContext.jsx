@@ -11,10 +11,18 @@ export const AuthProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [filteredTodos, setFilteredTodos] = useState([]);
 
-  useEffect(() => {
-    console.log(todos);
-  }, [todos]);
+  const filterTodos = (categoryId) => {
+    if (!categoryId) {
+      setFilteredTodos(todos);
+      return;
+    }
+    const filtered = todos.filter(
+      (todo) => todo.category && todo.category._id === categoryId
+    );
+    setFilteredTodos(filtered);
+  };
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -52,6 +60,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const task = await authService.getTask();
         setTodos(task.data);
+        setFilteredTodos(task.data);
         toast.info("berhasil mengambil data");
       } catch (error) {
         toast.error("tidak datap mengambil tugas");
@@ -90,6 +99,9 @@ export const AuthProvider = ({ children }) => {
     setTodos,
     categories,
     setCategories,
+    setFilteredTodos,
+    filteredTodos,
+    filterTodos
   };
 
   if (loading) {

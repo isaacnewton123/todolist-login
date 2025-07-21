@@ -13,7 +13,6 @@ const DashboardContainers = ({ onLogout }) => {
   const [detailTaskModal, setDetailTaskModal] = useState(false);
   const [detailTask, setDetailTask] = useState(null);
 
-
   useEffect(() => {
     console.log("Detail Task:", detailTask);
   }, [detailTask]);

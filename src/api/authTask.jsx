@@ -4,12 +4,14 @@ import { useAuth } from "../components/hooks/useAuth";
 import { Category } from "../components/atoms/Category";
 
 export const useAuthTask = () => {
-  const { setTodos, setCategories } = useAuth();
+  const { setTodos, setCategories, setFilteredTodos, todos} = useAuth();
 
   const addTask = async (value) => {
     try {
       const task = await authService.addTask(value);
-      setTodos((prevTodos) => [...prevTodos, task.data]);
+      const newtodos = [...todos, task.data];
+      setTodos(newtodos);
+      setFilteredTodos(newtodos);
       toast.success("Tugas Berhasil Di Simpan");
     } catch (err) {
       console.error("gagal mengirim tugas", err);
@@ -23,9 +25,9 @@ export const useAuthTask = () => {
         completed: !item.completed,
         categoryId: item.category ? item.category._id : null,
       });
-      setTodos((prevTodos) =>
-        prevTodos.map((a) => (a._id === item._id ? task.data : a))
-      );
+      const update = todos.map((a) => (a._id === item._id ? task.data : a))
+      setTodos(update);
+      setFilteredTodos(update);
       toast.success("selamat");
     } catch (err) {
       console.error("ada masalah", err);
@@ -36,7 +38,9 @@ export const useAuthTask = () => {
   const deleteTask = async (item) => {
     try {
       await authService.deleteTask(item);
-      setTodos((prevTodos) => prevTodos.filter((a) => a._id !== item));
+      const del = todos.filter((a) => a._id !== item);
+      setTodos(del);
+      setFilteredTodos(del);
       toast.success("selamat");
     } catch (err) {
       console.error("ada masalah ", err);

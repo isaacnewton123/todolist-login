@@ -64,6 +64,7 @@ const FormRegister = ({ onClick }) => {
           }}
           className="text-white w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
+          <option className="text-gray-200 bg-gray-600" value="">Pilih Kategori</option>
           {categories.map((cat) => (
             <option key={cat._id} value={cat._id}>
               {cat.name}

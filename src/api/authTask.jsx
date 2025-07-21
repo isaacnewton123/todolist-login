@@ -60,10 +60,25 @@ export const useAuthTask = () => {
     }
   };
 
+  const deleteCategory = async (id) => {
+    try {
+      await authService.deleteCategory(id);
+      setCategories((prevCategories) =>
+        prevCategories.filter((cat) => cat._id !== id)
+      );
+      toast.success("Kategori berhasil dihapus");
+    } catch (error) {
+      console.error("Gagal menghapus kategori", error);
+      toast.error("Gagal menghapus kategori");
+      throw error;
+    }
+  };
+
   return {
     addTask,
     completed,
     deleteTask,
     addCategory,
+    deleteCategory,
   };
 };

@@ -7,12 +7,11 @@ import CategoryItem from "./molecules/Category";
 import { useState } from "react";
 
 const SideBar = ({ onClick }) => {
-
   const [activeCategory, setActiveCategory] = useState(null);
 
   const { user, categories, filterTodos } = useAuth();
 
-const handleCategoryClick = (categoryId) => {
+  const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
     filterTodos(categoryId);
   };
@@ -39,7 +38,9 @@ const handleCategoryClick = (categoryId) => {
           variant="filteringCategory"
           onClick={() => handleCategoryClick(null)}
           type={null}
-          className={activeCategory === null ? "bg-indigo-500 text-white" : null}
+          className={
+            activeCategory === null ? "bg-indigo-500 text-white" : null
+          }
         >
           <FaRegFolderOpen className="w-6 h-6" />
           <span className="ml-3">Semua Tugas</span>
@@ -49,7 +50,10 @@ const handleCategoryClick = (categoryId) => {
             key={cat._id}
             category={cat.name}
             onClick={() => handleCategoryClick(cat._id)}
-            className={activeCategory === cat._id ? "bg-indigo-500 text-white" : null}
+            className={
+              activeCategory === cat._id ? "bg-indigo-500 text-white" : null
+            }
+            onModal={undefined}
           />
         ))}
       </nav>

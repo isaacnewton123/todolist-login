@@ -52,6 +52,10 @@ export const getCategory = () => {
   return apiClient.get("/api/categories");
 };
 
+export const deleteCategory = (id) => {
+  return apiClient.delete(`/api/categories/${id}`);
+};
+
 export const postCategory = (category) => {
   return apiClient.post("/api/categories", category);
 };
